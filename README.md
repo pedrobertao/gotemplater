@@ -1,17 +1,31 @@
-# gotemplater
+# 🛠️ gotemplater
 
-🚀 Go template builder.
+A minimal and extensible project scaffolding tool for Go developers.  
+Generate ready-to-code project structures with Docker, database configs, and tests — in one command.
 
-## 🛠 How to Run
+---
+
+## ✨ Features
+
+- ✅ Template-based project generation via YAML
+- 📁 Predefined structures for:
+  - Basic Web Projects
+  - PostgreSQL with Docker Compose
+  - SQLite Repositories
+- 🧪 Includes boilerplate for services, handlers, middleware, and tests
+- 🐳 Docker and `docker-compose.yml` generation support
+- 💨 Lightweight and installable via `go install`
+
+---
+
+## 📦 Installation
 
 ```bash
-go run cmd/server/main.go
+go install github.com/pedrobertao/gotemplater@latest
 ```
 
-# 📚 Requirements
+## 🚀 Usage
 
-- Go 1.24.3+
-
-- Docker (for container usage)
-
-- MongoDB, PostgreSQL or SQLite depending on template
+```bash
+gotemplater -name=myapp -template=api-simple
+```
