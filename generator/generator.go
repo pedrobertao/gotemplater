@@ -18,10 +18,6 @@ type Template struct {
 }
 
 func Generate(projectName, templateName string) error {
-	// Garante que o nome não tenha prefixo redundante
-	templateName = strings.TrimPrefix(strings.TrimSpace(templateName), "templates/")
-
-	// Caminho completo no sistema de arquivos embutido
 	templatePath := fmt.Sprintf("templates/%s/structure.yaml", templateName)
 
 	data, err := Templates.ReadFile(templatePath)
