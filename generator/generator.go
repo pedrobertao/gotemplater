@@ -18,11 +18,9 @@ type Template struct {
 }
 
 func Generate(projectName, templateName string) error {
-	templatePath := fmt.Sprintf("templates/%s/structure.yaml", templateName)
-
-	data, err := Templates.ReadFile(templatePath)
+	data, err := Templates.ReadFile(templateName)
 	if err != nil {
-		return fmt.Errorf("failed to read template '%s': %w", templatePath, err)
+		return fmt.Errorf("failed to read template '%s': %w", templateName, err)
 	}
 
 	var tmpl Template
