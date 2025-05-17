@@ -6,7 +6,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"gotemplater/generator"
+	"gotemplater/core/generator"
 )
 
 func main() {
