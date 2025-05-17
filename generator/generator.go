@@ -17,31 +17,34 @@ type Template struct {
 	Files []TemplatePath `yaml:"files"`
 }
 
-// Generate creates project files and folders based on a YAML template.
 func Generate(projectName, templateName string) error {
+	// Garante que o nome não tenha prefixo redundante
+	templateName = strings.TrimPrefix(strings.TrimSpace(templateName), "templates/")
+
+	// Caminho completo no sistema de arquivos embutido
 	templatePath := fmt.Sprintf("templates/%s/structure.yaml", templateName)
 
 	data, err := Templates.ReadFile(templatePath)
 	if err != nil {
-		return fmt.Errorf("failed to read template: %w", err)
+		return fmt.Errorf("failed to read template '%s': %w", templatePath, err)
 	}
 
 	var tmpl Template
 	if err := yaml.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("failed to parse YAML: %w", err)
+		return fmt.Errorf("failed to parse YAML for template '%s': %w", templateName, err)
 	}
 
 	for _, file := range tmpl.Files {
 		fullPath := filepath.Join(projectName, file.Path)
 
 		if err := os.MkdirAll(filepath.Dir(fullPath), os.ModePerm); err != nil {
-			return fmt.Errorf("failed to create directory: %w", err)
+			return fmt.Errorf("failed to create directory '%s': %w", filepath.Dir(fullPath), err)
 		}
 
 		content := generateContent(file.Path)
 
 		if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
-			return fmt.Errorf("failed to write file: %w", err)
+			return fmt.Errorf("failed to write file '%s': %w", fullPath, err)
 		}
 	}
 
