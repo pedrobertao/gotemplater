@@ -6,12 +6,12 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/pedrobertao/gotemplater/internal/generator"
+	"github.com/pedrobertao/gotemplater/generator"
 )
 
 func main() {
 	project := flag.String("name", "myapp", "Name of the project to generate")
-	template := flag.String("template", "basic_web", "Template name (e.g., basic_web, web_with_sqlite)")
+	template := flag.String("template", "api-simple", "Template name (e.g., basic_web, web_with_sqlite)")
 	flag.Parse()
 
 	templatePath := filepath.Join("templates", *template, "structure.yaml")

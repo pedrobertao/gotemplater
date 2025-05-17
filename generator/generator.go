@@ -18,8 +18,10 @@ type Template struct {
 }
 
 // Generate creates project files and folders based on a YAML template.
-func Generate(projectName, templatePath string) error {
-	data, err := os.ReadFile(templatePath)
+func Generate(projectName, templateName string) error {
+	templatePath := fmt.Sprintf("templates/%s/structure.yaml", templateName)
+
+	data, err := Templates.ReadFile(templatePath)
 	if err != nil {
 		return fmt.Errorf("failed to read template: %w", err)
 	}
@@ -223,13 +225,4 @@ func New%s() *%s {
 	}
 
 	return ""
-}
-
-// toCamel converts snake_case to CamelCase.
-func toCamel(input string) string {
-	parts := strings.Split(input, "_")
-	for i := range parts {
-		parts[i] = strings.Title(parts[i])
-	}
-	return strings.Join(parts, "")
 }

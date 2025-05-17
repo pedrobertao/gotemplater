@@ -21,7 +21,7 @@ Generate ready-to-code project structures with Docker, database configs, and tes
 ## 📦 Installation
 
 ```bash
-go install github.com/pedrobertao/gotemplater@latest
+go install -u github.com/pedrobertao/gotemplater
 ```
 
 ## 🚀 Usage
