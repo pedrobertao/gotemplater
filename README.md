@@ -24,3 +24,12 @@ Choose a template interactively and start building your app immediately.
 ```bash
 go install -u github.com/pedrobertao/gotemplater
 ```
+
+## 📦 How to use
+
+```bash
+gotemplater
+- Choose name
+- Choose template
+Done !
+```
