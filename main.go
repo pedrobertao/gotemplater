@@ -17,8 +17,8 @@ func main() {
 	templatePath := filepath.Join("templates", *template, "structure.yaml")
 
 	if err := generator.Generate(*project, templatePath); err != nil {
-		log.Fatalf("❌ Error generating project: %v", err)
+		log.Fatalf("error generating project: %v", err)
 	}
 
-	fmt.Printf("✅ Project '%s' generated using '%s' template!\n", *project, *template)
+	fmt.Printf("Project '%s' generated using '%s' template!\n", *project, *template)
 }
