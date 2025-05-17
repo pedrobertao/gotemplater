@@ -4,222 +4,73 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"gopkg.in/yaml.v3"
 )
 
+// TemplatePath represents a file path within a template definition
 type TemplatePath struct {
 	Path string `yaml:"path"`
 }
 
+// Template represents a complete template definition with its files
 type Template struct {
 	Files []TemplatePath `yaml:"files"`
 }
 
+// Generate creates a new project based on the specified template
 func Generate(projectName, templateName string) error {
+	// Read and parse the template file
+	tmpl, err := readTemplate(templateName)
+	if err != nil {
+		return err
+	}
+
+	// Generate all files defined in the template
+	return generateFiles(projectName, templateName, tmpl)
+}
+
+// readTemplate reads and parses a template file from the embedded filesystem
+func readTemplate(templateName string) (*Template, error) {
 	data, err := Templates.ReadFile(templateName)
 	if err != nil {
-		return fmt.Errorf("failed to read template '%s': %w", templateName, err)
+		return nil, fmt.Errorf("failed to read template '%s': %w", templateName, err)
 	}
 
 	var tmpl Template
 	if err := yaml.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("failed to parse YAML for template '%s': %w", templateName, err)
+		return nil, fmt.Errorf("failed to parse YAML for template '%s': %w", templateName, err)
 	}
 
+	return &tmpl, nil
+}
+
+// generateFiles creates all files defined in the template
+func generateFiles(projectName, templateName string, tmpl *Template) error {
 	for _, file := range tmpl.Files {
-		fullPath := filepath.Join(projectName, file.Path)
-
-		if err := os.MkdirAll(filepath.Dir(fullPath), os.ModePerm); err != nil {
-			return fmt.Errorf("failed to create directory '%s': %w", filepath.Dir(fullPath), err)
-		}
-
-		content := generateContent(file.Path)
-
-		if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
-			return fmt.Errorf("failed to write file '%s': %w", fullPath, err)
+		if err := generateFile(projectName, templateName, file); err != nil {
+			return err
 		}
 	}
-
 	return nil
 }
 
-// generateContent returns boilerplate content based on file path.
-func generateContent(path string) string {
-	base := filepath.Base(path)
-	ext := filepath.Ext(path)
-	name := strings.TrimSuffix(base, ext)
-	pkg := filepath.Base(filepath.Dir(path))
+// generateFile creates a single file with its directory structure
+func generateFile(projectName, templateName string, file TemplatePath) error {
+	fullPath := filepath.Join(projectName, file.Path)
 
-	// Dockerfile
-	if strings.EqualFold(base, "Dockerfile") {
-		return `FROM golang:1.24.3
-
-WORKDIR /app
-COPY . .
-RUN go build -o main ./cmd/server
-
-CMD ["./main"]
-`
+	// Create all necessary directories
+	if err := os.MkdirAll(filepath.Dir(fullPath), os.ModePerm); err != nil {
+		return fmt.Errorf("failed to create directory '%s': %w", filepath.Dir(fullPath), err)
 	}
 
-	// docker-compose.yml
-	if strings.EqualFold(base, "docker-compose.yml") {
-		if strings.Contains(path, "pgsql") {
-			return `version: "3.9"
+	// Generate content based on template and file path
+	content := generateContent(templateName, file.Path)
 
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    volumes:
-      - .:/app
-    depends_on:
-      - postgres
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=appdb
-
-  postgres:
-    image: postgres:16
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: appdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
-`
-		}
-
-		// default docker-compose (Mongo)
-		return `version: "3.9"
-
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    volumes:
-      - .:/app
-    depends_on:
-      - mongo
-
-  mongo:
-    image: mongo:7
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodata:/data/db
-
-volumes:
-  mongodata:
-`
+	// Write content to file
+	if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
+		return fmt.Errorf("failed to write file '%s': %w", fullPath, err)
 	}
 
-	// Middleware
-	if strings.Contains(path, "middleware") && !strings.HasSuffix(name, "_test") {
-		return fmt.Sprintf(`package %s
-
-import "fmt"
-
-func AuthMiddleware() {
-	fmt.Println("Middleware executed")
-}
-`, pkg)
-	}
-
-	// Test files
-	if ext == ".go" && strings.HasSuffix(name, "_test") {
-		return fmt.Sprintf(`package %s
-
-import "testing"
-
-func TestExample(t *testing.T) {
-	t.Log("example test")
-}
-`, pkg)
-	}
-
-	// Go source files
-	switch ext {
-	case ".go":
-		switch name {
-		case "main":
-			return `package main
-
-import "fmt"
-
-func main() {
-	fmt.Println("Hello, world!")
-}
-`
-		case "config":
-			return `package config
-
-import "fmt"
-
-func LoadConfig() {
-	fmt.Println("Loading config...")
-}
-`
-		default:
-			// SQLite repository special case
-			if strings.Contains(path, "repository") && strings.Contains(path, "sqlite") {
-				return fmt.Sprintf(`package %s
-
-import (
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-)
-
-type %s struct {
-	DB *sql.DB
-}
-
-func New%s(dbPath string) (*%s, error) {
-	db, err := sql.Open("sqlite3", dbPath)
-	if err != nil {
-		return nil, err
-	}
-	return &%s{DB: db}, nil
-}
-`, pkg, toCamel(name), toCamel(name), toCamel(name), toCamel(name))
-			}
-
-			// Default boilerplate for other Go files
-			return fmt.Sprintf(`package %s
-
-type %s struct {
-}
-
-func New%s() *%s {
-	return &%s{}
-}
-`, pkg, toCamel(name), toCamel(name), toCamel(name), toCamel(name))
-		}
-
-	case ".md":
-		if name == "README" {
-			return "# Project\n\nGenerated by gotemplater.\n"
-		}
-
-	case ".mod":
-		return "module myapp\n\ngo 1.24.3"
-
-	case ".sum":
-		return ""
-	}
-
-	return ""
+	return nil
 }

@@ -1,5 +1,5 @@
 package middleware
-	
+
 import "fmt"
 
 func AuthMiddleware() {
