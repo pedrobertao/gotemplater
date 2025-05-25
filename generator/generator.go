@@ -1,76 +1,93 @@
 package generator
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"gopkg.in/yaml.v3"
+	"strings"
 )
 
-// TemplatePath represents a file path within a template definition
-type TemplatePath struct {
-	Path string `yaml:"path"`
+// FileStructure represents the structure for generating files
+type FileStructure struct {
+	Name     string                 `json:"name"`
+	Type     string                 `json:"type"` // "file" or "directory"
+	Content  string                 `json:"content,omitempty"`
+	Children []FileStructure        `json:"children,omitempty"`
+	Template string                 `json:"template,omitempty"`
+	Data     map[string]interface{} `json:"data,omitempty"`
 }
 
-// Template represents a complete template definition with its files
-type Template struct {
-	Files []TemplatePath `yaml:"files"`
-}
+// GenerateFiles creates files and directories from JSON structure
+func GenerateFiles(structure FileStructure, basePath string) error {
+	fullPath := filepath.Join(basePath, structure.Name)
 
-// Generate creates a new project based on the specified template
-func Generate(projectName, templateName string) error {
-	// Read and parse the template file
-	tmpl, err := readTemplate(templateName)
-	if err != nil {
-		return err
-	}
-
-	// Generate all files defined in the template
-	return generateFiles(projectName, templateName, tmpl)
-}
-
-// readTemplate reads and parses a template file from the embedded filesystem
-func readTemplate(templateName string) (*Template, error) {
-	data, err := Templates.ReadFile(templateName)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read template '%s': %w", templateName, err)
-	}
-
-	var tmpl Template
-	if err := yaml.Unmarshal(data, &tmpl); err != nil {
-		return nil, fmt.Errorf("failed to parse YAML for template '%s': %w", templateName, err)
-	}
-
-	return &tmpl, nil
-}
-
-// generateFiles creates all files defined in the template
-func generateFiles(projectName, templateName string, tmpl *Template) error {
-	for _, file := range tmpl.Files {
-		if err := generateFile(projectName, templateName, file); err != nil {
-			return err
+	switch structure.Type {
+	case "directory":
+		// Create directory
+		if err := os.MkdirAll(fullPath, 0755); err != nil {
+			return fmt.Errorf("failed to create directory %s: %w", fullPath, err)
 		}
+		fmt.Printf("Created directory: %s\n", fullPath)
+
+		// Process children
+		for _, child := range structure.Children {
+			if err := GenerateFiles(child, fullPath); err != nil {
+				return err
+			}
+		}
+
+	case "file":
+		// Ensure parent directory exists
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+			return fmt.Errorf("failed to create parent directory for %s: %w", fullPath, err)
+		}
+
+		// Determine file content
+		content := structure.Content
+		if structure.Template != "" {
+			content = processTemplate(structure.Template, structure.Data)
+		}
+
+		// Create file
+		if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
+			return fmt.Errorf("failed to create file %s: %w", fullPath, err)
+		}
+		fmt.Printf("Created file: %s\n", fullPath)
+
+	default:
+		return fmt.Errorf("unknown type: %s", structure.Type)
 	}
+
 	return nil
 }
 
-// generateFile creates a single file with its directory structure
-func generateFile(projectName, templateName string, file TemplatePath) error {
-	fullPath := filepath.Join(projectName, file.Path)
+// processTemplate performs simple template substitution
+func processTemplate(template string, data map[string]interface{}) string {
+	result := template
+	for key, value := range data {
+		placeholder := fmt.Sprintf("{{%s}}", key)
+		result = strings.ReplaceAll(result, placeholder, fmt.Sprintf("%v", value))
+	}
+	return result
+}
 
-	// Create all necessary directories
-	if err := os.MkdirAll(filepath.Dir(fullPath), os.ModePerm); err != nil {
-		return fmt.Errorf("failed to create directory '%s': %w", filepath.Dir(fullPath), err)
+// GenerateFromJSON parses JSON and generates files
+func GenerateFromJSON(jsonData []byte, outputPath string) error {
+	var structure FileStructure
+	if err := json.Unmarshal(jsonData, &structure); err != nil {
+		return fmt.Errorf("failed to parse JSON: %w", err)
 	}
 
-	// Generate content based on template and file path
-	content := generateContent(templateName, file.Path)
+	return GenerateFiles(structure, outputPath)
+}
 
-	// Write content to file
-	if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
-		return fmt.Errorf("failed to write file '%s': %w", fullPath, err)
+// GenerateFromJSONFile reads JSON from file and generates files
+func GenerateFromJSONFile(jsonFilePath, outputPath string) error {
+	data, err := os.ReadFile(jsonFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to read JSON file: %w", err)
 	}
 
-	return nil
+	return GenerateFromJSON(data, outputPath)
 }

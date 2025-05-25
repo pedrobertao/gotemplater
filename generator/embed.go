@@ -4,5 +4,5 @@ import (
 	"embed"
 )
 
-//go:embed templates/**/structure.yaml
+//go:embed templates/**/structure.json
 var Templates embed.FS

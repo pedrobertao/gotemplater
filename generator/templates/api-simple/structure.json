@@ -1,0 +1,48 @@
+{
+  "name": "my-project",
+  "type": "directory",
+  "children": [
+    {
+      "name": "src",
+      "type": "directory",
+      "children": [
+        {
+          "name": "main.go",
+          "type": "file",
+          "template": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hello, {{name}}!\")\n}",
+          "data": {
+            "name": "World"
+          }
+        },
+        {
+          "name": "utils.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "type": "directory",
+      "children": [
+        {
+          "name": "README.md",
+          "type": "file",
+          "template": "# {{project_name}}\n\n{{description}}\n\n## Installation\n\n",
+          "data": {
+            "project_name": "My Go Project",
+            "description": "A sample Go project generated from JSON structure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "go.mod",
+      "type": "file",
+      "template": "module {{app-name}} \n\ngo 1.24.3",
+      "data": {
+        "app-name": "myapp"
+      }
+    }
+  ]
+}
