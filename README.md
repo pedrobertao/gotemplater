@@ -1,5 +1,3 @@
-# 🛠️ gotemplater [██████░░░░░░] 40% completed
-
 A fast and flexible CLI tool to generate Go project structures from embedded templates.  
 Choose a template interactively and start building your app immediately.
 
