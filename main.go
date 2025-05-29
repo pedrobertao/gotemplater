@@ -14,7 +14,7 @@ func main() {
 	// Create output directory
 	outputPath := "./"
 
-	filename := "./generator/templates/api-simple/structure.json"
+	filename := "./generator/templates/web-api/structure.json"
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Printf("failed to read file %s: %w", filename, err)

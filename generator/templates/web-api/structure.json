@@ -1,0 +1,325 @@
+{
+  "name": "my-project",
+  "type": "directory",
+  "children": [
+    {
+      "name": "cmd",
+      "type": "directory",
+      "children": [
+        {
+          "name": "server",
+          "type": "directory",
+          "children": [
+            {
+              "name": "main.go",
+              "type": "file",
+              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "internal",
+      "type": "directory",
+      "children": [
+        {
+          "name": "api",
+          "type": "directory",
+          "children": [
+            {
+              "name": "handlers",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "user.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                },
+                {
+                  "name": "auth.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                },
+                {
+                  "name": "health.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                }
+              ]
+            },
+            {
+              "name": "middleware",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "auth.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                },
+                {
+                  "name": "logging.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                }
+              ]
+            },
+            {
+              "name": "routes",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "routes.go",
+                  "type": "file",
+                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "type": "directory",
+      "children": [
+        {
+          "name": "config.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        }
+      ]
+    },
+    {
+      "name": "tests",
+      "type": "directory",
+      "children": [
+        {
+          "name": "integration",
+          "type": "directory",
+          "children": [
+            {
+              "name": "api_test.go",
+              "type": "file",
+              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+            }
+          ]
+        },
+        {
+          "name": "unit",
+          "type": "directory",
+          "children": [
+            {
+              "name": "handlers_test.go",
+              "type": "file",
+              "content": "package unit"
+            },
+            {
+              "name": "services_test.go",
+              "type": "file",
+              "content": "package unit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "respository",
+      "type": "directory",
+      "children": [
+        {
+          "name": "interfaces.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        },
+        {
+          "name": "user_repo.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        },
+        {
+          "name": "postgres",
+          "type": "directory",
+          "children": [
+            {
+              "name": "user.go",
+              "type": "file",
+              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "type": "directory",
+      "children": [
+        {
+          "name": "user_service.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        },
+        {
+          "name": "auth_service.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "directory",
+      "children": [
+        {
+          "name": "jwt.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        },
+        {
+          "name": "validator.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "type": "directory",
+      "children": [
+        {
+          "name": "user.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        }
+      ]
+    },
+    {
+      "name": "database",
+      "type": "directory",
+      "children": [
+        {
+          "name": "connection.go",
+          "type": "file",
+          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+        },
+        {
+          "name": "migrations",
+          "type": "directory",
+          "children": [
+            {
+              "name": "001_create_users.sql",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "libs",
+      "type": "directory",
+      "children": [
+        {
+          "name": "logger",
+          "type": "directory",
+          "children": [
+            {
+              "name": "logger.go",
+              "type": "file",
+              "content": "package logger"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scripts",
+      "type": "directory",
+      "children": [
+        {
+          "name": "build.sh",
+          "type": "file",
+          "content": "# Build your go project"
+        },
+        {
+          "name": "migrate.sh",
+          "type": "file",
+          "content": "# Migrations for your project"
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "type": "directory",
+      "children": [
+        {
+          "name": "api.sh",
+          "type": "file",
+          "content": "# Documentation of your project"
+        },
+        {
+          "name": "swagger.yaml",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "deployments",
+      "type": "directory",
+      "children": [
+        {
+          "name": "docker",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Dockerfile",
+              "type": "file",
+              "content": "# Documentation of your project"
+            }
+          ]
+        },
+        {
+          "name": "k8s",
+          "type": "directory",
+          "children": [
+            {
+              "name": "deployment.yaml",
+              "type": "file",
+              "content": "service.yaml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "template": "# {{project_name}}\n\n{{description}}\n\n## Installation\n\n",
+      "data": {
+        "project_name": "My Go Project",
+        "description": "A sample Go project generated from JSON structure"
+      }
+    },
+    {
+      "name": "go.mod",
+      "type": "file",
+      "template": "module {{app-name}} \n\ngo 1.24.3",
+      "data": {
+        "app-name": "myapp"
+      }
+    },
+    {
+      "name": "go.sum",
+      "type": "file"
+    },
+    {
+      "name": ".gitignore",
+      "type": "file",
+      "template": "# Binaries for programs and plugins\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib\n# Test binary, built with `go test -c`\n*.test\n# Code coverage profiles and other test artifacts\n*.out\ncoverage.*\n*.coverprofile\nprofile.cov\n# Dependency directories (remove the comment below to include it)\n# vendor/\n# Go workspace file\ngo.work\ngo.work.sum\n# env file\n.env\n# Editor/IDE\n# .idea/\n# .vscode/"
+    },
+    {
+      "name": "Makefile",
+      "type": "file",
+      "template": "# Local development or test purposes"
+    }
+  ]
+}
