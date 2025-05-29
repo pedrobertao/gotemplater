@@ -13,7 +13,7 @@
             {
               "name": "main.go",
               "type": "file",
-              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+              "content": "package main\n\n import (\n\t\"fmt\"\n)\nfunc main() {\n\tfmt.Println(\"Hello world\")\n}"
             }
           ]
         }
@@ -34,17 +34,17 @@
                 {
                   "name": "user.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package handlers"
                 },
                 {
                   "name": "auth.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package handlers"
                 },
                 {
                   "name": "health.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package handlers"
                 }
               ]
             },
@@ -55,12 +55,12 @@
                 {
                   "name": "auth.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package middleware"
                 },
                 {
                   "name": "logging.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package middleware"
                 }
               ]
             },
@@ -71,7 +71,7 @@
                 {
                   "name": "routes.go",
                   "type": "file",
-                  "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+                  "content": "package routes"
                 }
               ]
             }
@@ -86,7 +86,7 @@
         {
           "name": "config.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package config"
         }
       ]
     },
@@ -101,7 +101,7 @@
             {
               "name": "api_test.go",
               "type": "file",
-              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+              "content": "package integration\n\nimport \"testing\"\n\nfunc TestApi(t *testing.T) {\n\texpected := \"Hello, API!\"\n\tif result := \"Hello, API!\"; result != expected {\n\t\tt.Errorf(\"Expected %s, got %s\", expected, result)\n\t}\n}"
             }
           ]
         },
@@ -112,12 +112,12 @@
             {
               "name": "handlers_test.go",
               "type": "file",
-              "content": "package unit"
+              "content": "package unit\n\nimport \"testing\"\n\nfunc TestHandlers(t *testing.T) {\n\texpected := \"Hello, Handlers!\"\n\tif result := \"Hello, Handlers!\"; result != expected {\n\t\tt.Errorf(\"Expected %s, got %s\", expected, result)\n\t}\n}"
             },
             {
               "name": "services_test.go",
               "type": "file",
-              "content": "package unit"
+              "content": "package unit\n\nimport \"testing\"\n\nfunc TestServices(t *testing.T) {\n\texpected := \"Hello, Services!\"\n\tif result := \"Hello, Services!\"; result != expected {\n\t\tt.Errorf(\"Expected %s, got %s\", expected, result)\n\t}\n}"
             }
           ]
         }
@@ -130,12 +130,12 @@
         {
           "name": "interfaces.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package repository"
         },
         {
           "name": "user_repo.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package repository"
         },
         {
           "name": "postgres",
@@ -144,7 +144,7 @@
             {
               "name": "user.go",
               "type": "file",
-              "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+              "content": "package postgres"
             }
           ]
         }
@@ -157,12 +157,12 @@
         {
           "name": "user_service.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package service"
         },
         {
           "name": "auth_service.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package service"
         }
       ]
     },
@@ -173,12 +173,12 @@
         {
           "name": "jwt.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package utils"
         },
         {
           "name": "validator.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package utils"
         }
       ]
     },
@@ -189,7 +189,7 @@
         {
           "name": "user.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package models"
         }
       ]
     },
@@ -200,7 +200,7 @@
         {
           "name": "connection.go",
           "type": "file",
-          "content": "package main\n\n// Utility functions\nfunc Add(a, b int) int {\n\treturn a + b\n}"
+          "content": "package database"
         },
         {
           "name": "migrations",
@@ -273,7 +273,7 @@
             {
               "name": "Dockerfile",
               "type": "file",
-              "content": "# Documentation of your project"
+              "content": "FROM golang:1.23-alpine AS builder\nWORKDIR /app\nCOPY go.mod go.sum ./\nRUN go mod download\nCOPY . .\nRUN go build -o main ./cmd/server\nFROM alpine:latest\nRUN apk --no-cache add ca-certificates\nWORKDIR /root/\nCOPY --from=builder /app/main .\nEXPOSE 8080\nCMD [\"./main\"]"
             }
           ]
         },
@@ -284,7 +284,12 @@
             {
               "name": "deployment.yaml",
               "type": "file",
-              "content": "service.yaml"
+              "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: go-api\n  labels:\n    app: go-api\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: go-api\n  template:\n    metadata:\n      labels:\n        app: go-api\n    spec:\n      containers:\n      - name: go-api\n        image: go-api:latest\n        ports:\n        - containerPort: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        resources:\n          requests:\n            memory: \"64Mi\"\n            cpu: \"250m\"\n          limits:\n            memory: \"128Mi\"\n            cpu: \"500m\""
+            },
+            {
+              "name": "service.yaml",
+              "type": "file",
+              "content": "apiVersion: v1\nkind: Service\nmetadata:\n  name: go-api-service\n  labels:\n    app: go-api\nspec:\n  type: LoadBalancer\n  ports:\n  - port: 80\n    targetPort: 8080\n    protocol: TCP\n  selector:\n    app: go-api"
             }
           ]
         }
