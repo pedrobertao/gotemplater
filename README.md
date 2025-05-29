@@ -1,5 +1,7 @@
 <img width="1200" alt="Screenshot 2025-05-29 at 18 44 56" src="https://github.com/user-attachments/assets/a44f3171-c983-47d5-8d49-13da7ad62bec" />
 
+---
+## 📦 Description
 
 A fast and flexible CLI tool to generate Go project structures from embedded templates.  
 Choose a template interactively and start building your app immediately.
