@@ -1,5 +1,5 @@
 files:
-  - path: cmd/server/main.go
+  - path: main.go
   - path: config/config.go
   - path: internal/api/handler/entity.go
   - path: internal/api/route/router.go
@@ -16,3 +16,6 @@ files:
   - path: go.sum
   - path: Dockerfile
   - path: README.md
+  - path: Makefile
+  - path: Makefile
+

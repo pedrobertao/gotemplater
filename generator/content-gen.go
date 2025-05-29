@@ -31,6 +31,8 @@ func generateContent(templateName, path string) string {
 		return generateGoMod()
 	case isGoSum(ext):
 		return generateGoSum()
+	case isMakeFile(name):
+		return generateMakeFile(name)
 	default:
 		return ""
 	}
@@ -70,17 +72,21 @@ func isGoSum(ext string) bool {
 	return ext == ".sum"
 }
 
+func isMakeFile(name string) bool {
+	return name == "Makefile"
+}
+
 // Content generation functions
 
 func generateDockerfile() string {
-	return `FROM golang:1.24.3
-
+	return `FROM golang:1.23-alpine
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
-RUN go build -o main ./cmd/server
-
-CMD ["./main"]
-`
+RUN go build -o main main.go
+EXPOSE 8080
+CMD ["./main"]`
 }
 
 func generateDockerCompose(templateName string) string {
@@ -245,4 +251,38 @@ func generateGoMod() string {
 
 func generateGoSum() string {
 	return ""
+}
+
+func generateMakeFile(name string) string {
+	return fmt.Sprintf(`APP_NAME=%s
+
+.PHONY: run build build-windows build-darwin build-linux clean
+
+run:
+	go run main.go
+
+build: build-windows build-darwin build-linux
+
+build-windows:
+	GOOS=windows GOARCH=amd64 go build -o $(APP_NAME).exe
+
+build-darwin:
+	GOOS=darwin GOARCH=amd64 go build -o $(APP_NAME)-darwin-amd64
+	GOOS=darwin GOARCH=arm64 go build -o $(APP_NAME)-darwin-arm64
+
+build-linux:
+	GOOS=linux GOARCH=amd64 go build -o $(APP_NAME)-linux-amd64
+
+clean:
+	rm -f $(APP_NAME).exe $(APP_NAME)-darwin-amd64 $(APP_NAME)-darwin-arm64 $(APP_NAME)-linux-amd64
+
+help:
+	@echo "Available targets:"
+	@echo "  run           - Run the application"
+	@echo "  build         - Build for all platforms"
+	@echo "  build-windows - Build for Windows"
+	@echo "  build-darwin  - Build for macOS (Intel and Apple Silicon)"
+	@echo "  build-linux   - Build for Linux"
+	@echo "  clean         - Remove all built binaries"
+	@echo "  help          - Show this help message"`, name)
 }
