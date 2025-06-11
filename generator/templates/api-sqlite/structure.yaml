@@ -16,3 +16,4 @@ files:
   - path: Dockerfile
   - path: README.md
   - path: Makefile
+  - path: .gitignore

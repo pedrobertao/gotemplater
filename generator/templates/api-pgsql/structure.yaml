@@ -15,6 +15,7 @@ files:
   - path: tests/unit/entity_test.go
   - path: go.mod
   - path: go.sum
+  - path: .gitignore
   - path: Dockerfile
   - path: docker-compose.yml
   - path: README.md

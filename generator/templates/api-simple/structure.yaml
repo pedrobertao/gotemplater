@@ -18,4 +18,5 @@ files:
   - path: README.md
   - path: Makefile
   - path: Makefile
+  - path: .gitignore
 

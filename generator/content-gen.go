@@ -33,6 +33,8 @@ func generateContent(templateName, path string) string {
 		return generateGoSum()
 	case isMakeFile(name):
 		return generateMakeFile(name)
+	case isGitIgnore(name):
+		return generateGitIgnore(name)
 	default:
 		return ""
 	}
@@ -74,6 +76,10 @@ func isGoSum(ext string) bool {
 
 func isMakeFile(name string) bool {
 	return name == "Makefile"
+}
+
+func isGitIgnore(name string) bool {
+	return name == ".gitignore"
 }
 
 // Content generation functions
@@ -285,4 +291,31 @@ help:
 	@echo "  build-linux   - Build for Linux"
 	@echo "  clean         - Remove all built binaries"
 	@echo "  help          - Show this help message"`, name)
+}
+
+func generateGitIgnore(name string) string {
+	return `
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with 'go test -c'
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+`
 }
